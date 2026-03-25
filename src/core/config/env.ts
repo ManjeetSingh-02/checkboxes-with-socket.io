@@ -9,6 +9,8 @@ import z from 'zod';
 const envSchema = z.object({
   PORT: z.coerce.number().int().positive(),
   NODE_ENV: z.enum(Object.values(APP_CONFIG.NODE_ENVS)),
+  REDIS_HOST: z.string().trim().nonempty(),
+  REDIS_PORT: z.coerce.number().int().positive(),
 });
 
 // function to validate environment variables
