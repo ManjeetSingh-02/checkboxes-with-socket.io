@@ -1,5 +1,5 @@
 // internal-imports
-import { checkBoxState } from '../core/index.js';
+import { redisClient } from '../core/index.js';
 
 // external-imports
 import express from 'express';
@@ -19,8 +19,9 @@ export default function createApp(): Application {
     .use(express.static('public'));
 
   // @route GET /checkbox-state
-  application.get('/checkbox-state', (_request: Request, response: Response) => {
-    return response.status(200).json({ checkBoxState });
+  application.get('/checkbox-state', async (_request: Request, response: Response) => {
+    const checkBoxes = await redisClient.get('checkboxes-list');
+    return response.status(200).json({ checkBoxState: JSON.parse(checkBoxes!) });
   });
 
   // return the application
